@@ -8,10 +8,10 @@
     // General
     //
     "BaseClass"                                           "npc_dota_creature" // Class of entity of link to.
-    "Model"                                               "models/heroes/spirit_breaker/spirit_breaker.vmdl"  // Model.
+    "Model"                                               "models/dmx_charger/ch.vmdl"  // Model.
     "vscripts"                                            "units/charger.lua"
     "SoundSet"                                            "spirit_breaker"                    // Name of sound set.
-    "ModelScale"                                          "2"
+    "ModelScale"                                          "1"
     "Level"                                               "30"
     "IsAncient"                                           "1"
     "ConsideredHero"                                      "1"

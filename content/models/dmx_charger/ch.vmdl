@@ -305,6 +305,14 @@
 					m_Activities = 
 					[
 						{
+							m_Name = "ACT_DOTA_MAGNUS_SKEWER_START"
+							m_nWeight = 3
+						},
+						{
+							m_Name = "ACT_DOTA_MAGNUS_SKEWER_END"
+							m_nWeight = 3
+						},
+						{
 							m_Name = "ACT_DOTA_CHANNEL_ABILITY_2"
 							m_nWeight = 3
 						},
@@ -316,7 +324,7 @@
 					m_adjustAnimation = 
 					{
 						m_translation = [ 0.0, 0.0, 0.0 ]
-						m_rotation = [ 0.0, 0.0, 90.0 ]
+						m_rotation = [ 0.0, 0.0, 180.0 ]
 					}
 					m_Keywords = [  ]
 					m_sequenceParams = 
@@ -379,7 +387,7 @@
 					m_adjustAnimation = 
 					{
 						m_translation = [ 0.0, 0.0, 0.0 ]
-						m_rotation = [ 0.0, 0.0, 90.0 ]
+						m_rotation = [ 0.0, 0.0, 180.0 ]
 					}
 					m_Keywords = [  ]
 					m_sequenceParams = 
@@ -414,7 +422,7 @@
 					m_Activities = 
 					[
 						{
-							m_Name = "ACT_180_LEFT"
+							m_Name = "ACT_DOTA_IDLE"
 							m_nWeight = 1
 						},
 					]
@@ -425,7 +433,7 @@
 					m_adjustAnimation = 
 					{
 						m_translation = [ 0.0, 0.0, 0.0 ]
-						m_rotation = [ 0.0, 0.0, 90.0 ]
+						m_rotation = [ 0.0, 0.0, 180.0 ]
 					}
 					m_Keywords = [  ]
 					m_sequenceParams = 
@@ -488,7 +496,7 @@
 					m_adjustAnimation = 
 					{
 						m_translation = [ 0.0, 0.0, 0.0 ]
-						m_rotation = [ 0.0, 0.0, 90.0 ]
+						m_rotation = [ 0.0, 0.0, 180.0 ]
 					}
 					m_Keywords = [  ]
 					m_sequenceParams = 
@@ -534,7 +542,7 @@
 					m_adjustAnimation = 
 					{
 						m_translation = [ 0.0, 0.0, 0.0 ]
-						m_rotation = [ 0.0, 0.0, 90.0 ]
+						m_rotation = [ 0.0, 0.0, 180.0 ]
 					}
 					m_Keywords = [  ]
 					m_sequenceParams = 

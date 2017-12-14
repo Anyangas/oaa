@@ -8,7 +8,7 @@
     // General
     //
     "BaseClass"                                           "npc_dota_creep_neutral" // Class of entity of link to.
-    "Model"                                               "models\creeps\item_creeps\i_creep_necro_archer\necro_archer.vmdl"
+    "Model"                                               "models/twins/jophiel/body.vmdl"
     "SoundSet"                                            "Meepo"          // Name of sound set.
     "ModelScale"                                          "1"
     "Level"                                               "30"
@@ -34,7 +34,9 @@
     "AttackRate"                                          "0.75"      // Speed of attack.
     "AttackAnimationPoint"                                "0.3"    // Normalized time in animation cycle to attack.
     "AttackAcquisitionRange"                              "150"    // Range within a target can be acquired.
-    "AttackRange"                                         "960"    // Range within a target can be attacked.
+    "AttackRange"                                         "800"    // Range within a target can be attacked.
+    "ProjectileModel"                                     "particles/bosses/twins/joph/joph_base_attack.vpcf" // Particle system model for projectile.
+    "ProjectileSpeed"                                     "800"    // Speed of projectile.
 
     // Bounty
     //----------------------------------------------------------------
@@ -50,7 +52,7 @@
 
     // Movement
     //----------------------------------------------------------------
-    "MovementCapabilities"                                "DOTA_UNIT_CAP_MOVE_GROUND"      // Type of locomotion - ground, air
+    "MovementCapabilities"                                "DOTA_UNIT_CAP_MOVE_FLY"      // Type of locomotion - ground, fly
     "MovementSpeed"                                       "420"    // Speed
     "MovementTurnRate"                                    "0.8"    // Turning rate.
 
