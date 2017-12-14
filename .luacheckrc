@@ -43,6 +43,9 @@ globals = { -- these globals can be set and accessed.
 "CAPTAINS_MODE_HERO_PICK_TIME",
 "PREGAME_TIME",
 "CAPTAINS_MODE_CAPTAIN_TIME",
+"SCAN_REVEAL_COOLDOWN",
+"SCAN_REVEAL_RADIUS",
+"SCAN_REVEAL_DURATION",
 }
 
 read_globals = { -- these globals can only be accessed.
@@ -244,6 +247,7 @@ read_globals = { -- these globals can only be accessed.
 "DOTA_TEAM_COUNT",
 "ACT_MP_WALK_PRIMARY",
 "ACT_DOTA_RUN",
+"ACT_DOTA_RUN_STATUE",
 "RELOAD_NPC",
 "MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE_UNIQUE",
 "ACT_STEP_FORE",
@@ -2742,7 +2746,9 @@ read_globals = { -- these globals can only be accessed.
 "GameEvents",
 "PlayerTables",
 "Notifications",
-"MODIFIER_PROPERTY_STATUS_RESISTANCE"
+"MODIFIER_PROPERTY_STATUS_RESISTANCE",
+"FORCE_PICKED_HERO",
+"DotProduct"
 }
 
 ignore = {
