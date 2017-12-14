@@ -1,6 +1,10 @@
 -- This is the entry-point to your game mode and should be used primarily to precache models/particles/sounds/etc
 
+<<<<<<< HEAD
 GAME_VERSION = "2.21.0"
+=======
+GAME_VERSION = "1.0.2"
+>>>>>>> upstream/1.0.2
 CustomNetTables:SetTableValue("info", "version", { value = GAME_VERSION })
 -- lets do this here too
 local mode = ""

@@ -1,6 +1,10 @@
 {
   "name": "open_angel_arena",
+<<<<<<< HEAD
   "version": "2.21.0",
+=======
+  "version": "1.0.2",
+>>>>>>> upstream/1.0.2
   "description": "A really great Dota 2 game mode.",
   "main": "index.js",
   "scripts": {

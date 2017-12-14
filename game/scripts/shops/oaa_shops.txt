@@ -188,7 +188,11 @@
     "item"                                                "item_heart"
     "item"                                                "item_heart_transplant"
     "item"                                                "item_stoneskin"
+<<<<<<< HEAD
     "item"                                                "item_spirit_vessel"
+=======
+    "item"                                                ""
+>>>>>>> upstream/1.0.2
   }
 
   "weapons"
