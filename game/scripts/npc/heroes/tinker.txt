@@ -1,7 +1,0 @@
-"DOTAHeroes"
-{
-  "npc_dota_hero_tinker"
-  {
-    "Ability6"                                            "oaa_rearm"
-  }
-}
