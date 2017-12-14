@@ -1,11 +1,14 @@
+/// Custom Units
+
+// OAA Bosses
 #base "units/charger/npc_dota_boss_charger_pillar.txt"
 #base "units/charger/npc_dota_boss_charger.txt"
 #base "units/shielder/npc_dota_boss_shielder.txt"
 #base "units/twin/npc_dota_boss_twin.txt"
 #base "units/twin/npc_dota_boss_twin_dumb.txt"
-
 #base "units/stopfightingyourself/stopfightingyourself.txt"
 
+<<<<<<< HEAD
 #base "units/siltbreaker/npc_dota_creature_ogre_tank_boss.txt"
 #base "units/siltbreaker/npc_dota_creature_ogre_seer.txt"
 
@@ -14,6 +17,9 @@
 #base "units/siltbreaker/npc_dota_creature_dire_hound_boss.txt"
 #base "units/siltbreaker/npc_dota_creature_werewolf.txt"
 
+=======
+// Base Bossess
+>>>>>>> upstream/ebf-bosses
 #base "units/boss/npc_dota_boss_tier_1.txt"
 #base "units/boss/npc_dota_boss_tier_2.txt"
 #base "units/boss/npc_dota_boss_tier_3.txt"
@@ -21,6 +27,7 @@
 #base "units/boss/npc_dota_boss_tier_5.txt"
 #base "units/boss/npc_dota_boss_tier_6.txt"
 
+// Simple Bosses
 #base "units/boss/npc_dota_boss_simple_1.txt"
 #base "units/boss/npc_dota_boss_simple_2.txt"
 #base "units/boss/npc_dota_boss_simple_3.txt"
@@ -28,6 +35,17 @@
 #base "units/boss/npc_dota_boss_simple_6.txt"
 #base "units/boss/npc_dota_boss_simple_7.txt"
 
+// EBF
+#base "units/ebf/npc_dota_boss_factorio.txt"
+#base "units/ebf/npc_dota_boss_automaton.txt"
+#base "units/ebf/npc_dota_boss_dire_beast.txt"
+#base "units/ebf/npc_dota_boss_nyx_slayer.txt"
+#base "units/ebf/npc_dota_boss_hell_golem.txt"
+#base "units/ebf/npc_dota_boss_death_archdemon.txt"
+#base "units/ebf/npc_dota_boss_demon_king.txt"
+#base "units/ebf/npc_dota_boss_god_of_demons.txt"
+
+// Other
 #base "units/npc_dota_beastmaster_boar_5.txt"
 #base "units/npc_dota_beastmaster_boar_6.txt"
 #base "units/npc_dota_beastmaster_hawk_5.txt"
