@@ -31,7 +31,11 @@
 #base "abilities/boss/boss_jinada.txt"
 #base "abilities/boss/boss_tidebringer.txt"
 #base "abilities/boss/boss_cliffwalk.txt"
+<<<<<<< HEAD
 #base "abilities/boss/boss_true_sight.txt"
+=======
+#base "abilities/siltbreaker/siltbreaker_boss_immunity.txt"
+>>>>>>> def966dee839daf49f6590f93de101589d7f4eb2
 
 // OAA Bosses
 #base "abilities/charger/boss_charger_charge.txt"
