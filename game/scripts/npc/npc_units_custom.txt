@@ -17,9 +17,19 @@
 #base "units/siltbreaker/npc_dota_creature_dire_hound_boss.txt"
 #base "units/siltbreaker/npc_dota_creature_werewolf.txt"
 
+<<<<<<< HEAD
 =======
 // Base Bossess
 >>>>>>> upstream/ebf-bosses
+=======
+#base "units/siltbreaker/npc_dota_creature_spider_boss.txt"
+#base "units/siltbreaker/npc_dota_creature_spider_minions.txt"
+#base "units/siltbreaker/npc_dota_creature_spider_web_sack.txt"
+
+#base "units/siltbreaker/npc_dota_creature_temple_guardian.txt"
+#base "units/siltbreaker/npc_dota_creature_temple_guardian_spawner.txt"
+
+>>>>>>> OpenAngelArena/master
 #base "units/boss/npc_dota_boss_tier_1.txt"
 #base "units/boss/npc_dota_boss_tier_2.txt"
 #base "units/boss/npc_dota_boss_tier_3.txt"
@@ -35,6 +45,7 @@
 #base "units/boss/npc_dota_boss_simple_6.txt"
 #base "units/boss/npc_dota_boss_simple_7.txt"
 
+<<<<<<< HEAD
 // EBF
 #base "units/ebf/npc_dota_boss_factorio.txt"
 #base "units/ebf/npc_dota_boss_automaton.txt"
@@ -46,6 +57,10 @@
 #base "units/ebf/npc_dota_boss_god_of_demons.txt"
 
 // Other
+=======
+#base "units/misc/npc_dota_creature_pedestal.txt"
+
+>>>>>>> OpenAngelArena/master
 #base "units/npc_dota_beastmaster_boar_5.txt"
 #base "units/npc_dota_beastmaster_boar_6.txt"
 #base "units/npc_dota_beastmaster_hawk_5.txt"
@@ -110,6 +125,8 @@
 #base "units/npc_dota_mini_roshan.txt"
 
 #base "units/npc_dota_punching_bag.txt"
+
+#base "units/minimap/minimap.txt"
 
 "DOTAUnits"
 {

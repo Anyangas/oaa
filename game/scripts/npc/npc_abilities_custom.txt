@@ -32,14 +32,19 @@
 #base "abilities/boss/boss_tidebringer.txt"
 #base "abilities/boss/boss_cliffwalk.txt"
 <<<<<<< HEAD
+<<<<<<< HEAD
 #base "abilities/boss/boss_true_sight.txt"
 =======
 #base "abilities/siltbreaker/siltbreaker_boss_immunity.txt"
 >>>>>>> def966dee839daf49f6590f93de101589d7f4eb2
+=======
+#base "abilities/siltbreaker/siltbreaker_boss_protection.txt"
+>>>>>>> OpenAngelArena/master
 
 // OAA Bosses
 #base "abilities/charger/boss_charger_charge.txt"
 #base "abilities/charger/boss_charger_summon_pillar.txt"
+#base "abilities/charger/boss_charger_super_armor.txt"
 #base "abilities/shielder/boss_shielder_shield.txt"
 #base "abilities/twin/boss_twin_twin_empathy.txt"
 <<<<<<< HEAD
@@ -58,12 +63,32 @@
 #base "abilities/siltbreaker/ranged_quill_attack.txt"
 #base "abilities/siltbreaker/werewolf_howl.txt"
 
+<<<<<<< HEAD
 =======
 >>>>>>> upstream/ebf-bosses
+=======
+#base "abilities/siltbreaker/spider_boss_larval_parasite.txt"
+#base "abilities/siltbreaker/spider_boss_passive.txt"
+#base "abilities/siltbreaker/spider_boss_rage.txt"
+#base "abilities/siltbreaker/spider_boss_summon_eggs.txt"
+#base "abilities/siltbreaker/spider_egg_sack.txt"
+#base "abilities/siltbreaker/spider_poison_spit.txt"
+#base "abilities/siltbreaker/spider_web.txt"
+#base "abilities/siltbreaker/mini_spider_slow_attack.txt"
+
+#base "abilities/siltbreaker/temple_guardian_purification.txt"
+#base "abilities/siltbreaker/temple_guardian_hammer_throw.txt"
+#base "abilities/siltbreaker/temple_guardian_hammer_smash.txt"
+#base "abilities/siltbreaker/temple_guardian_rage_hammer_smash.txt"
+#base "abilities/siltbreaker/temple_guardian_wrath.txt"
+#base "abilities/siltbreaker/temple_guardian_passive.txt"
+
+>>>>>>> OpenAngelArena/master
 #base "abilities/stopfightingyourself/dupe_heroes.txt"
 #base "abilities/stopfightingyourself/debuff_mirror.txt"
 #base "abilities/stopfightingyourself/dupe_items.txt"
 
+<<<<<<< HEAD
 // EBF Bosses
 #base "abilities/ebf/copied_from_ebf.txt"
 #base "abilities/ebf/boss_automaton_proximity.txt"
@@ -89,5 +114,10 @@
 #base "abilities/creature/creature_slithereen_crush.txt"
 
 // Other
+=======
+#base "abilities/misc/out_of_game.txt"
+#base "abilities/misc/environment_passive.txt"
+
+>>>>>>> OpenAngelArena/master
 #base "abilities/fountain_attack.txt"
 #base "abilities/dev_attack.txt"

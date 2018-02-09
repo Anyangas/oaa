@@ -9,10 +9,30 @@ function Spawn( entityKeyValues )
 end
 
 function DireHoundBossThink()
+
+  if ( not IsValidEntity(thisEntity) ) or ( not thisEntity:IsAlive()) or (thisEntity:IsDominated()) then
+		return -1
+  end
+
 	if GameRules:IsGamePaused() == true then
 		return 1
+  end
+
+  if not thisEntity.bInitialized then
+		thisEntity.vInitialSpawnPos = thisEntity:GetOrigin()
+    thisEntity.bInitialized = true
+  end
+
+  local fDistanceToOrigin = ( thisEntity:GetOrigin() - thisEntity.vInitialSpawnPos ):Length2D()
+
+  if fDistanceToOrigin > 2000 then
+    if fDistanceToOrigin > 10 then
+      return RetreatHome()
+    end
+    return 1
 	end
-	local enemies = FindUnitsInRadius( thisEntity:GetTeamNumber(), thisEntity:GetOrigin(), nil, 1250, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BUILDING, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES , FIND_CLOSEST, false )
+
+	local enemies = FindUnitsInRadius( thisEntity:GetTeamNumber(), thisEntity:GetOrigin(), nil, 1250, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BUILDING, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE, FIND_CLOSEST, false )
 	if #enemies == 0 then
 		return 1
 	end

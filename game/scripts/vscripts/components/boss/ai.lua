@@ -5,7 +5,7 @@ if BossAI == nil then
   DebugPrint ( 'creating new BossAI object' )
   BossAI = class({})
   BossAI.hasFarmingCore = {}
-  BossAI.hasReflexCore = {}
+  BossAI.hasSecondBoss = {}
 
   Debug.EnabledModules['boss:ai'] = false
 
@@ -71,7 +71,9 @@ function BossAI:GiveItemToWholeTeam (item, teamId)
   PlayerResource:GetPlayerIDsForTeam(teamId):each(function (playerId)
     local hero = PlayerResource:GetSelectedHeroEntity(playerId)
 
-    hero:AddItemByName(item)
+    if hero then
+      hero:AddItemByName(item)
+    end
   end)
 end
 
@@ -99,8 +101,8 @@ function BossAI:RewardBossKill(state, deathEventData, teamId)
 
     if not self.hasFarmingCore[team] then
       self.hasFarmingCore[team] = true
-    elseif not self.hasReflexCore[team] then
-      self.hasReflexCore[team] = true
+    elseif not self.hasSecondBoss[team] then
+      self.hasSecondBoss[team] = true
 
       BossSpawner[team .. "Zone1"].disable()
       BossSpawner[team .. "Zone2"].disable()
@@ -113,9 +115,6 @@ function BossAI:RewardBossKill(state, deathEventData, teamId)
         if self.hasFarmingCore[team] and not hero.hasFarmingCore then
           hero:AddItemByName("item_farming_core")
           hero.hasFarmingCore = true
-        elseif self.hasReflexCore[team] and not hero.hasReflexCore then
-          hero:AddItemByName("item_reflex_core")
-          hero.hasReflexCore = true
         end
       end
     end)

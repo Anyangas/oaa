@@ -1,7 +1,6 @@
 LinkLuaModifier("modifier_out_of_duel", "modifiers/modifier_out_of_duel.lua", LUA_MODIFIER_MOTION_NONE)
 
 if HeroSelection == nil then
-  Debug.EnabledModules['heroselection:*'] = true
   DebugPrint ( 'Starteng HeroSelection' )
   HeroSelection = class({})
 end
@@ -30,10 +29,26 @@ end)
 
 -- list all available heroes and get their primary attrs, and send it to client
 function HeroSelection:Init ()
+  Debug:EnableDebugging()
+
   DebugPrint("Initializing HeroSelection")
+  self.isCM = GetMapName() == "oaa_captains_mode"
+  self.isARDM = GetMapName() == "ardm"
+  self.spawnedHeroes = {}
+  self.spawnedPlayers = {}
+  self.attemptedSpawnPlayers = {}
+
+  local herolistFile = 'scripts/npc/herolist.txt'
+
+  if self.isCM then
+    herolistFile = 'scripts/npc/herolist_cm.txt'
+  end
+  if self.isARDM then
+    herolistFile = 'scripts/npc/herolist_ardm.txt'
+  end
 
   local allheroes = LoadKeyValues('scripts/npc/npc_heroes.txt')
-  for key,value in pairs(LoadKeyValues('scripts/npc/herolist.txt')) do
+  for key,value in pairs(LoadKeyValues(herolistFile)) do
     if value == 1 then
       herolist[key] = allheroes[key].AttributePrimary
       totalheroes = totalheroes + 1
@@ -42,18 +57,42 @@ function HeroSelection:Init ()
   end
   CustomNetTables:SetTableValue( 'hero_selection', 'herolist', {gametype = GetMapName(), herolist = herolist})
 
+  -- lock down the "pick" hero so that they can't do anything
   GameEvents:OnHeroInGame(function (npc)
     local playerId = npc:GetPlayerID()
     DebugPrint('An NPC spawned ' .. npc:GetUnitName())
     if npc:GetUnitName() == FORCE_PICKED_HERO then
       npc:AddNewModifier(nil, nil, "modifier_out_of_duel", nil)
       npc:AddNoDraw()
+
+      if self.attemptedSpawnPlayers[playerId] then
+        self:GiveStartingHero(playerId, self.attemptedSpawnPlayers[playerId])
+      end
     end
   end)
 
   GameEvents:OnPreGame(function (keys)
-    HeroSelection:StartSelection()
+    if self.isARDM and ARDMMode then
+      -- if it's ardm, show strategy screen right away,
+      -- lock in all heroes to initial random heroes
+      HeroSelection:StrategyTimer(3)
+      PlayerResource:GetAllTeamPlayerIDs():each(function(playerID)
+        lockedHeroes[playerID] = ARDMMode:GetRandomHero(PlayerResource:GetTeam(playerID))
+      end)
+      -- once ardm is done precaching, replace all the heroes, then fire off the finished loading event
+      ARDMMode:OnPrecache(function ()
+        DebugPrint('Precache finished! Woohoo!')
+        PlayerResource:GetAllTeamPlayerIDs():each(function(playerID)
+          DebugPrint('Giving starting hero ' .. lockedHeroes[playerID])
+          HeroSelection:GiveStartingHero(playerID, lockedHeroes[playerID])
+        end)
+        LoadFinishEvent.broadcast()
+      end)
+    else
+      HeroSelection:StartSelection()
+    end
   end)
+
   GameEvents:OnPlayerReconnect(function (keys)
     -- [VScript] [components\duels\duels:64] PlayerID: 1
     -- [VScript] [components\duels\duels:64] name: Minnakht
@@ -67,11 +106,15 @@ function HeroSelection:Init ()
       return
     end
     local hero = PlayerResource:GetSelectedHeroEntity(keys.PlayerID)
-    if hero:GetUnitName() == FORCE_PICKED_HERO and loadedHeroes[lockedHeroes[keys.PlayerID]] then
+    if not hero or hero:GetUnitName() == FORCE_PICKED_HERO and loadedHeroes[lockedHeroes[keys.PlayerID]] then
       DebugPrint('Giving player ' .. keys.PlayerID .. ' ' .. lockedHeroes[keys.PlayerID])
-      PlayerResource:ReplaceHeroWith(keys.PlayerID, lockedHeroes[keys.PlayerID], STARTING_GOLD, 0)
+      HeroSelection:GiveStartingHero(keys.PlayerID, lockedHeroes[keys.PlayerID])
     end
   end)
+
+  if self.isARDM and ARDMMode then
+    ARDMMode:Init(herolist)
+  end
 end
 
 -- set "empty" hero for every player and start picking phase
@@ -180,9 +223,9 @@ function HeroSelection:CMManager (event)
 end
 
 -- manage cm timer
-function HeroSelection:CMTimer (time, message)
+function HeroSelection:CMTimer (time, message, isReserveTime)
   HeroSelection:CheckPause()
-  CustomNetTables:SetTableValue( 'hero_selection', 'time', {time = time, mode = message})
+  CustomNetTables:SetTableValue( 'hero_selection', 'time', {time = time, mode = message, isReserveTime = isReserveTime})
 
   if cmpickorder["currentstage"] > 0 and forcestop == false then
     if cmpickorder["order"][cmpickorder["currentstage"]].side == DOTA_TEAM_GOODGUYS and cmpickorder["captainradiant"] == "empty" then
@@ -196,16 +239,38 @@ function HeroSelection:CMTimer (time, message)
     end
   end
 
-  if time < 0 then
-    HeroSelection:CMManager({hero = "random"})
-    return
+  if isReserveTime then
+    if cmpickorder["order"][cmpickorder["currentstage"]].side == DOTA_TEAM_BADGUYS then
+      cmpickorder["reservedire"] = time
+    elseif cmpickorder["order"][cmpickorder["currentstage"]].side == DOTA_TEAM_GOODGUYS then
+      cmpickorder["reserveradiant"] = time
+    end
+    CustomNetTables:SetTableValue( 'hero_selection', 'CMdata', cmpickorder)
+  end
+
+  if time <= 0 then
+    if cmpickorder["currentstage"] > 0 then
+     if cmpickorder["order"][cmpickorder["currentstage"]].side == DOTA_TEAM_BADGUYS and cmpickorder["reservedire"] > 0 then
+        -- start using reserve time
+        time = cmpickorder["reservedire"]
+        isReserveTime = true
+      elseif cmpickorder["order"][cmpickorder["currentstage"]].side == DOTA_TEAM_GOODGUYS and cmpickorder["reserveradiant"] > 0 then
+        -- start using reserve time
+        time = cmpickorder["reserveradiant"]
+        isReserveTime = true
+      end
+    end
+    if time <= 0 then
+      HeroSelection:CMManager({hero = "random"})
+      return
+    end
   end
 
   cmtimer = Timers:CreateTimer({
     useGameTime = not HERO_SELECTION_WHILE_PAUSED,
     endTime = 1,
     callback = function()
-      HeroSelection:CMTimer(time -1, message)
+      HeroSelection:CMTimer(time -1, message, isReserveTime)
     end
   })
 end
@@ -294,9 +359,32 @@ function HeroSelection:SelectHero (playerId, hero)
     if player == nil then -- disconnected! don't give em a hero yet...
       return
     end
+    self:GiveStartingHero(playerId, hero)
     DebugPrint('Giving player ' .. playerId .. ' ' .. hero)
-    PlayerResource:ReplaceHeroWith(playerId, hero, STARTING_GOLD, 0)
   end)
+end
+
+function HeroSelection:GiveStartingHero (playerId, heroName)
+  if self.spawnedPlayers[playerId] then
+    return
+  end
+  local startingGold = 0
+  if self.hasGivenStartingGold then
+    startingGold = STARTING_GOLD
+  end
+
+  PlayerResource:ReplaceHeroWith(playerId, heroName, startingGold, 0)
+  local hero = PlayerResource:GetSelectedHeroEntity(playerId)
+
+  if hero and hero:GetUnitName() ~= FORCE_PICKED_HERO then
+    table.insert(self.spawnedHeroes, hero)
+    self.spawnedPlayers[playerId] = true
+  else
+    self.attemptedSpawnPlayers[playerId] = heroName
+    Timers:CreateTimer(2, function ()
+      self:GiveStartingHero(playerId, heroName)
+    end)
+  end
 end
 
 function HeroSelection:IsHeroDisabled (hero)
@@ -350,7 +438,19 @@ function HeroSelection:EndStrategyTime ()
   HeroSelection:CheckPause()
 
   GameRules:SetTimeOfDay(0.25)
+
+  if self.isCM then
+    PauseGame(true)
+  end
+
   GameMode:OnGameInProgress()
+  OnGameInProgressEvent()
+
+  self.hasGivenStartingGold = true
+  for _,hero in ipairs(self.spawnedHeroes) do
+    Gold:SetGold(hero, STARTING_GOLD)
+  end
+
   CustomNetTables:SetTableValue( 'hero_selection', 'time', {time = -1, mode = ""})
 end
 

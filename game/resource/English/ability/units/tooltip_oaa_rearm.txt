@@ -1,0 +1,8 @@
+//=============================================================================
+// Tinker Rearm
+//=============================================================================
+"DOTA_Tooltip_ability_oaa_rearm"                        "#{DOTA_Tooltip_ability_tinker_rearm}"
+"DOTA_Tooltip_ability_oaa_rearm_Description"            "#{DOTA_Tooltip_ability_tinker_rearm_Description}"
+"DOTA_Tooltip_ability_oaa_rearm_Lore"                   "#{DOTA_Tooltip_ability_tinker_rearm_Lore}"
+"DOTA_Tooltip_ability_oaa_rearm_Note0"                  "Rearm doesn't refresh every item."
+"DOTA_Tooltip_ability_oaa_rearm_channel_tooltip"        "#{DOTA_Tooltip_ability_tinker_rearm_channel_tooltip}"

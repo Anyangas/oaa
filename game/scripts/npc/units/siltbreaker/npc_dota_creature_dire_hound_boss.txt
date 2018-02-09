@@ -15,8 +15,12 @@
 		"Model"						"models/heroes/lycan/lycan_wolf.vmdl"
 		"SoundSet"					"Hero_Lycan"
 		"Level"						"1"
+		"IsAncient"					"1"
 		"ModelScale" 				"0.9"
 		"IsNeutralUnitType"			"1"
+    "ConsideredHero"    "1"
+    "IsAncient"         "1"
+    "IsBossMonster"     "1"
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -28,7 +32,7 @@
 		// Armor
 		//----------------------------------------------------------------
 		"ArmorPhysical"				"0"
-		"MagicalResistance"			"33"
+		"MagicalResistance"			"0"
 
 		// Attack
 		//----------------------------------------------------------------
@@ -60,7 +64,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"150"
+		"StatusHealth"				"1500"
 		"StatusHealthRegen"			"0.5"
 		"StatusMana"				"350"
 		"StatusManaRegen"			"1"

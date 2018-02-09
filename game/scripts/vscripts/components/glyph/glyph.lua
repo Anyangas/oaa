@@ -6,7 +6,7 @@ LinkLuaModifier("modifier_scan_true_sight", "modifiers/modifier_scan_true_sight.
 
 
 if Glyph == nil then
-  Debug.EnabledModules['filters:glyph'] = false
+  -- Debug:EnableDebugging()
   DebugPrint('Creating new Glyph Filter Object')
   Glyph = class({})
 end
@@ -125,6 +125,7 @@ function Glyph:CastScan(playerID, keys)
   local position = Vector(keys.position_x, keys.position_y, keys.position_z)
 
   CreateModifierThinker( hero, nil, "modifier_scan_true_sight_thinker", {duration = SCAN_REVEAL_DURATION}, position, hero:GetTeamNumber(), false )
+  CreateModifierThinker( hero, nil, "modifier_radar_thinker", {duration = SCAN_DURATION}, position, hero:GetTeamNumber(), false )
 
   self:ResetScanCooldown(playerID)
 
@@ -140,7 +141,7 @@ function Glyph:SetScanCooldown(playerID, time)
   time = time or 0
 
   self.scan.cooldowns[team] = time
-  CustomGameEventManager:Send_ServerToPlayer(player, "glyph_scan_cooldown", { cooldown = time, maxCooldown = self:GetScanCooldown() })
+  CustomGameEventManager:Send_ServerToTeam( team, "glyph_scan_cooldown", { cooldown = time, maxCooldown = self:GetScanCooldown() } )
   Timers:CreateTimer(time, function ()
     self.scan.cooldowns[team] = 0
   end)

@@ -1,0 +1,39 @@
+"DOTAAbilities"
+{
+  //=================================================================================================================
+  // Night Stalker: Hunter in the Night
+  //=================================================================================================================
+  "night_stalker_hunter_in_the_night"
+  {
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    "ID"                                                  "5277"                            // unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+    "AbilityBehavior"                                     "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "MaxLevel"                                            "6"
+
+    "AbilityCooldown"                                     "30 26 22 18 18 18"
+    "AbilityManaCost"                                     "80"
+
+    // Special
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"                                        "FIELD_INTEGER"
+        "bonus_movement_speed_pct_night"                  "20 25 30 35 40 50"
+      }
+      "02"
+      {
+        "var_type"                                        "FIELD_INTEGER"
+        "bonus_attack_speed_night"                        "30 50 70 90 115 150"
+        "LinkedSpecialBonus"    "special_bonus_unique_night_stalker_2"
+      }
+      "03"
+      {
+        "var_type"                                        "FIELD_FLOAT"
+        "duration"                                        "2"
+      }
+    }
+  }
+}

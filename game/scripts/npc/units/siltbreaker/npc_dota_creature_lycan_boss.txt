@@ -34,7 +34,7 @@
 		"Ability5"					        "lycan_boss_rupture_ball"
 		"Ability6"                  "boss_resistance"
 		"Ability7"                  "boss_cliffwalk"
-		"Ability8"                  "siltbreaker_boss_immunity"
+		"Ability8"                  "siltbreaker_boss_protection"
 
 		// Armor
 		//----------------------------------------------------------------
@@ -71,7 +71,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"8500"
+		"StatusHealth"				"4000"
 		"StatusHealthRegen"			"10"
 		"StatusMana"				"2500"
 		"StatusManaRegen"			"5"

@@ -15,7 +15,11 @@
 		"Model"						"models/creeps/knoll_1/knoll_1.vmdl"
 		"SoundSet"					"n_creep_Melee"
 		"Level"						"1"
+		"IsAncient"					"1"
 		"ModelScale" 				"1.7"
+    "ConsideredHero"    "1"
+    "IsAncient"         "1"
+    "IsBossMonster"     "1"
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -31,8 +35,8 @@
 		// Attack
 		//----------------------------------------------------------------
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
-		"AttackDamageMin"			"50"
-		"AttackDamageMax"			"55"
+		"AttackDamageMin"			"300"
+		"AttackDamageMax"			"400"
 		"AttackRate"				"1.7"
 		"AttackAnimationPoint"		"0.43"
 		"AttackAcquisitionRange"	"500"
@@ -58,7 +62,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"500"
+		"StatusHealth"				"1500"
 		"StatusHealthRegen"			"1"
 		"StatusMana"				"300"
 		"StatusManaRegen"			"3"

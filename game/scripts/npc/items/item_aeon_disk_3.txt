@@ -37,7 +37,7 @@
 
     "MaxUpgradeLevel"                                     "5"
     "ItemBaseLevel"                                       "3"
-    "ItemCost"                                            "8600"
+    "ItemCost"                                            "8350"
     "ItemAliases"                                         "ad 3;aeon disk 3"
 
     "AbilitySharedCooldown"                               "combobreaker"
@@ -61,7 +61,7 @@
       "03"
       {
         "var_type"        "FIELD_INTEGER"
-        "health_threshold_pct"      "80"
+        "health_threshold_pct"      "70"
       }
       "04"
       {

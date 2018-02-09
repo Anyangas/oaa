@@ -13,7 +13,7 @@ local function GetAllPillars ()
     1200,
     DOTA_UNIT_TARGET_TEAM_FRIENDLY,
     DOTA_UNIT_TARGET_BASIC,
-    DOTA_UNIT_TARGET_FLAG_INVULNERABLE ,
+    DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE,
     FIND_CLOSEST,
     false
   )
@@ -64,7 +64,7 @@ local function ChargeHero ()
     1000,
     DOTA_UNIT_TARGET_TEAM_ENEMY,
     DOTA_UNIT_TARGET_HERO,
-    DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+    DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
     FIND_CLOSEST,
     false
   )
@@ -137,6 +137,7 @@ function Spawn (entityKeyValues) --luacheck: ignore Spawn
   local phaseController = thisEntity:AddNewModifier(thisEntity, ABILITY_charge, "modifier_boss_phase_controller", {})
   phaseController:SetPhases({ 66, 33 })
   phaseController:SetAbilities({
-    "boss_charger_charge"
+    "boss_charger_charge",
+    "boss_charger_super_armor"
   })
 end

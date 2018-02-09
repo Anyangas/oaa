@@ -121,6 +121,12 @@ function DebugPrintTable(...)
   end
 end
 
+function DevPrintTable(...)
+  local trace, dir = GetCallingFile()
+
+  PrintTable("[" .. dir .. "]", ...)
+end
+
 function PrintTable(prefix, t, indent, done)
   --print ( string.format ('PrintTable type %s', type(keys)) )
   if type(prefix) == "table" then
@@ -316,7 +322,7 @@ function FindHeroesInRadius (...)
   local units = FindUnitsInRadius(...)
 
   local function isHero (hero)
-    if hero.IsRealHero and hero:IsRealHero() then
+    if hero.IsRealHero and hero:IsRealHero() and not hero:IsTempestDouble() then
       return true
     end
     return false

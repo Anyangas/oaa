@@ -2,12 +2,16 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 GAME_VERSION = "2.21.0"
 =======
 GAME_VERSION = "1.0.2"
 >>>>>>> upstream/1.0.2
 =======
 GAME_VERSION = "2.22.3"
+=======
+GAME_VERSION = "2.35.3"
+>>>>>>> OpenAngelArena/master
 
 -- Setup the main logger
 require('internal/logging')
@@ -30,6 +34,8 @@ require('internal/eventwrapper')
 require('internal/util')
 require('gamemode')
 require('precache')
+
+require('libraries/keyvalues')
 -- DotaStats
 require("statcollection/init")
 
@@ -47,7 +53,7 @@ function Precache( context )
   DebugPrint("[BAREBONES] Performing pre-load precache")
 
   for _,Item in pairs( g_ItemPrecache ) do
-    PrecacheItemByNameSync( Item, context )
+    PrecacheItemByNameAsync( Item, function( item ) end )
   end
 
    for _,Unit in pairs( g_UnitPrecache ) do

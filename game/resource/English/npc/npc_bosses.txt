@@ -19,6 +19,7 @@
 
 "npc_dota_creature_ogre_tank_boss"			                                "Bogdugg"
 "npc_dota_creature_lycan_boss"                                          "Lucius Longclaw"
+<<<<<<< HEAD
 =======
 // Cave Bosses
 "npc_dota_mini_roshan"                            "Baby Rosh"
@@ -48,3 +49,8 @@
 "npc_dota_boss_demon_king"                        "Demon King"
 "npc_dota_boss_god_of_demons"                     "Asura, God of Demons"
 >>>>>>> upstream/ebf-bosses
+=======
+"npc_dota_creature_spider_boss"                                         "Ankaboot"
+"npc_dota_creature_temple_guardian"			                                "Temple Guardian"
+"npc_dota_creature_temple_guardian_spawner"			                        "Temple Spawner"
+>>>>>>> OpenAngelArena/master

@@ -2,6 +2,7 @@
   "name": "open_angel_arena",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   "version": "2.21.0",
 =======
   "version": "1.0.2",
@@ -9,6 +10,9 @@
 =======
   "version": "2.22.3",
 >>>>>>> def966dee839daf49f6590f93de101589d7f4eb2
+=======
+  "version": "2.35.4",
+>>>>>>> OpenAngelArena/master
   "description": "A really great Dota 2 game mode.",
   "main": "index.js",
   "scripts": {
@@ -44,10 +48,12 @@
     "tape": "^4.6.3"
   },
   "dependencies": {
+    "@types/node": "^9.3.0",
     "all-contributors-cli": "^4.10.0",
     "ap": "^0.2.0",
-    "request": "^2.81.0",
+    "request": "^2.83.0",
     "transifex": "^1.4.6",
+    "typescript": "^2.6.2",
     "xtend": "^4.0.1"
   }
 }

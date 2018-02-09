@@ -19,7 +19,7 @@ end
 --------------------------------------------------------------------------------
 
 function FindOgreBoss()
-  local friendlies = FindUnitsInRadius( thisEntity:GetTeamNumber(), thisEntity:GetOrigin(), nil, thisEntity:GetCurrentVisionRange(), DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
+  local friendlies = FindUnitsInRadius( thisEntity:GetTeamNumber(), thisEntity:GetOrigin(), nil, thisEntity:GetCurrentVisionRange(), DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE, 0, false )
   for _,friendly in pairs ( friendlies ) do
     if friendly ~= nil then
       if friendly:GetUnitName() == "npc_dota_creature_ogre_tank_boss" then
@@ -32,7 +32,7 @@ end
 --------------------------------------------------------------------------------
 
 function OgreSeerThink()
-	if ( not thisEntity:IsAlive() ) then
+	if ( not IsValidEntity(thisEntity) ) or ( not thisEntity:IsAlive()) or (thisEntity:IsDominated()) then
 		return -1
 	end
 
@@ -54,9 +54,13 @@ function OgreSeerThink()
     thisEntity.hOgreBoss = FindOgreBoss()
   end
 
-	local enemies = FindUnitsInRadius( thisEntity:GetTeamNumber(), thisEntity:GetOrigin(), nil, thisEntity:GetCurrentVisionRange(), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
+	local enemies = FindUnitsInRadius( thisEntity:GetTeamNumber(), thisEntity:GetOrigin(), nil, thisEntity:GetCurrentVisionRange(), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE, 0, false )
   local fDistanceToOrigin = ( thisEntity:GetOrigin() - thisEntity.vInitialSpawnPos ):Length2D()
-  local fHpPercent = (thisEntity:GetHealth() / thisEntity:GetMaxHealth()) * 100
+
+  local hasDamageThreshold = thisEntity:GetMaxHealth() - thisEntity:GetHealth() > BOSS_AGRO_FACTOR;
+  if thisEntity.hOgreBoss then
+    hasDamageThreshold = thisEntity:GetMaxHealth() - thisEntity:GetHealth() > thisEntity.hOgreBoss.BossTier * BOSS_AGRO_FACTOR;
+  end
 
   --Agro
   if (IsValidEntity(thisEntity.hOgreBoss) and thisEntity.hOgreBoss:IsAlive() and not thisEntity.hOgreBoss.bHasAgro and thisEntity.bHasAgro and #enemies == 0) then
@@ -65,7 +69,7 @@ function OgreSeerThink()
     thisEntity:SetIdleAcquire(false)
     thisEntity:SetAcquisitionRange(0)
     return 2
-  elseif thisEntity.hOgreBoss==nil or not thisEntity.hOgreBoss:IsAlive() or (fHpPercent < 100 and #enemies > 0) or (thisEntity.hOgreBoss~=nil and thisEntity.hOgreBoss.bHasAgro) then
+  elseif thisEntity.hOgreBoss==nil or not thisEntity.hOgreBoss:IsAlive() or (hasDamageThreshold and #enemies > 0) or (thisEntity.hOgreBoss~=nil and thisEntity.hOgreBoss.bHasAgro) then
     if not thisEntity.bHasAgro then
       DebugPrint("Ogre Seer Agro")
       thisEntity.bHasAgro = true
@@ -75,7 +79,7 @@ function OgreSeerThink()
   end
 
   -- Leash
-  if not thisEntity.bHasAgro or #enemies==0 or fDistanceToOrigin > 2000 then
+  if not thisEntity.bHasAgro or #enemies==0 or fDistanceToOrigin > 800 then
     if fDistanceToOrigin > 10 then
       return RetreatHome()
     end
@@ -112,7 +116,7 @@ end
 --------------------------------------------------------------------------------
 
 function Approach( hUnit )
-  print("Approach")
+  DebugPrint("Approach")
 	local vToUnit = hUnit:GetOrigin() - thisEntity:GetOrigin()
 	vToUnit = vToUnit:Normalized()
 
@@ -142,11 +146,11 @@ end
 --------------------------------------------------------------------------------
 
 function RetreatHome()
-  print("RetreatHome Ogre Seer")
+  DebugPrint("RetreatHome Ogre Seer")
 	ExecuteOrderFromTable({
 		UnitIndex = thisEntity:entindex(),
 		OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION,
 		Position = thisEntity.vInitialSpawnPos
   })
-  return 1
+  return 6
 end

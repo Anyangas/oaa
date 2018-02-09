@@ -16,7 +16,11 @@
 		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"
 		"SoundSet"					"n_creep_Melee"
 		"Level"						"1"
+		"IsAncient"                 "1"
 		"ModelScale" 				"1.1"
+    "ConsideredHero"    "1"
+    "IsAncient"         "1"
+    "IsBossMonster"     "1"
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -59,7 +63,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"2400"
+		"StatusHealth"				"7500"
 		"StatusHealthRegen"			"5"
 		"StatusMana"				"1200"
 		"StatusManaRegen"			"10"
