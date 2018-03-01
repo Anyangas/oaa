@@ -3,6 +3,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   "version": "2.21.0",
 =======
   "version": "1.0.2",
@@ -13,6 +14,9 @@
 =======
   "version": "2.35.4",
 >>>>>>> OpenAngelArena/master
+=======
+  "version": "2.37.7",
+>>>>>>> upstream/master
   "description": "A really great Dota 2 game mode.",
   "main": "index.js",
   "scripts": {

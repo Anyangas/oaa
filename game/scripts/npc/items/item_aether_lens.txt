@@ -1,0 +1,68 @@
+"DOTAItems"
+{
+  //=================================================================================================================
+  // Recipe: Aether Lens
+  //=================================================================================================================
+  "item_recipe_aether_lens"
+  {
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    "ID"                                                  "233"    // unique ID
+    "Model"                                               "models/props_gameplay/recipe.vmdl"
+    "ItemCost"                                            "600"
+    "ItemShopTags"                                        ""
+    "ItemRecipe"                                          "1"
+    "ItemResult"                                          "item_aether_lens"
+    "AbilityTextureName"                                  "custom/recipe/recipe_1"
+    "ItemRequirements"
+    {
+      "01"                                                "item_energy_booster;item_void_stone"
+    }
+  }
+
+  //=================================================================================================================
+  // Aether Lens
+  //=================================================================================================================
+  "item_aether_lens"
+  {
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    "ID"                                                  "232"                            // unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+    "AbilityBehavior"                                     "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "AbilityTextureName"                                  "custom/aether_lens_1"
+
+    // Item Info
+    //-------------------------------------------------------------------------------------------------------------
+    "ItemCost"                                            "2350"
+    "ItemShopTags"                                        "int;regen_mana;move_speed;hard_to_tag"
+    "ItemQuality"                                         "rare"
+    "ItemAliases"                                         "aether lens"
+    "ItemDeclarations"                                    "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+
+    // Spicy Parameters
+    //-------------------------------------------------------------------------------------------------------------
+    "MaxUpgradeLevel"                                     "5"
+    "ItemBaseLevel"                                       "1"
+
+    // Special
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"                                        "FIELD_INTEGER"
+        "bonus_mana"                                      "450 1000 2200 3800 5600"
+      }
+      "02"
+      {
+        "var_type"        "FIELD_FLOAT"
+        "bonus_mana_regen"    "1.25 3.75 6.25 8.75 11.25"
+      }
+      "03"
+      {
+        "var_type"                                        "FIELD_INTEGER"
+        "cast_range_bonus"                                "250 325 425 550 700"
+      }
+    }
+  }
+}
