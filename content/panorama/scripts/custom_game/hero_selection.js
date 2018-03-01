@@ -10,6 +10,11 @@ if (typeof module !== 'undefined' && module.exports) {
   };
 }
 
+// for testing
+var neverHideStrategy = false;
+
+var currentMap = null;
+var hasGoneToStrategy = false;
 var selectedhero = 'empty';
 var disabledheroes = [];
 var herolocked = false;
@@ -18,6 +23,40 @@ var iscm = false;
 var selectedherocm = 'empty';
 var isPicking = true;
 var currentHeroPreview = '';
+var stepsCompleted = {
+  2: 0,
+  3: 0
+};
+var lastPickIndex = 0;
+var hilariousLoadingPhrases = [
+  'Precaching all heroes',
+  'Filling bottles',
+  'Spawning extra Ogres',
+  'Procrastinating',
+  'Loading a bunch of other stuff too',
+  'Mining bitcoins',
+  'Charging into towers',
+  'Breaking boss agro leashes',
+  'Hacking the gibson',
+  'Adding more pointless loading screen quotes',
+  'Attempting to index a nil value',
+  'Changing Workshop entries',
+  'Forking to make balance changes',
+  'Constructing additional pylons',
+  'Sedating Azazel',
+  'Filling lava pools',
+  'Rehearsing "Ocean Man"',
+  'Painting the happy little trees',
+  'Grinding Moon Shards into moon dust',
+  'Dusting off the farming cave',
+  'Priming tesla coils',
+  'Rigging uphill attack misses',
+  'Eating Jaffa cakes',
+  'Nerfing your hero',
+  'Buffing opponents',
+  'Loading Warcraft 3',
+  'Unboxing map'
+];
 
 CustomNetTables.SubscribeNetTableListener('hero_selection', onPlayerStatChange);
 onPlayerStatChange(null, 'herolist', CustomNetTables.GetTableValue('hero_selection', 'herolist'));
@@ -27,11 +66,46 @@ onPlayerStatChange(null, 'time', CustomNetTables.GetTableValue('hero_selection',
 onPlayerStatChange(null, 'preview_table', CustomNetTables.GetTableValue('hero_selection', 'preview_table'));
 ReloadCMStatus(CustomNetTables.GetTableValue('hero_selection', 'CMdata'));
 UpdatePreviews(CustomNetTables.GetTableValue('hero_selection', 'preview_table'));
+changeHilariousLoadingText();
+
+$('#ARDMLoading').style.opacity = 0;
+
+function changeHilariousLoadingText () {
+  var incredibleWit = hilariousLoadingPhrases[~~(Math.random() * hilariousLoadingPhrases.length)];
+
+  noDots();
+  $.Schedule(1, oneDots);
+  $.Schedule(2, twoDots);
+  $.Schedule(3, threeDots);
+  $.Schedule(6, noDots);
+  $.Schedule(7, oneDots);
+  $.Schedule(8, twoDots);
+  $.Schedule(9, threeDots);
+
+  $.Schedule(12, changeHilariousLoadingText);
+
+  function noDots () {
+    $('#ARDMLoading').text = incredibleWit;
+  }
+  function oneDots () {
+    $('#ARDMLoading').text = incredibleWit + '.';
+  }
+  function twoDots () {
+    $('#ARDMLoading').text = incredibleWit + '..';
+  }
+  function threeDots () {
+    $('#ARDMLoading').text = incredibleWit + '...';
+  }
+}
 
 function onPlayerStatChange (table, key, data) {
   var teamID = Players.GetTeam(Game.GetLocalPlayerID());
   var newimage = null;
   if (key === 'herolist' && data != null) {
+    currentMap = data.gametype;
+    if (currentMap !== 'ardm') {
+      MoveChatWindow();
+    }
     var strengthholder = FindDotaHudElement('StrengthHeroes');
     var agilityholder = FindDotaHudElement('AgilityHeroes');
     var intelligenceholder = FindDotaHudElement('IntelligenceHeroes');
@@ -157,7 +231,10 @@ function onPlayerStatChange (table, key, data) {
       FindDotaHudElement('HeroRandom').style.visibility = 'collapse';
       FindDotaHudElement('BecomeCaptain').style.visibility = 'collapse';
     }
-    if (data['currentstage'] < data['totalstages']) {
+    FindDotaHudElement('RadiantReserve').text = data['reserveradiant'];
+    FindDotaHudElement('DireReserve').text = data['reservedire'];
+
+    if (data['currentstage'] < data['totalstages'] || (data['order'][data['currentstage']] && data['order'][data['currentstage']].hero === 'empty')) {
       if (!data['order'][data['currentstage']]) {
         return;
       }
@@ -175,8 +252,27 @@ function onPlayerStatChange (table, key, data) {
         currentPickIndex = data['currentstage'] + 1;
         currentPick = data['order'][currentPickIndex];
       }
+      if (currentPickIndex > lastPickIndex) {
+        stepsCompleted[currentPick.side]++;
+        lastPickIndex = currentPickIndex;
+      }
       $.Msg(currentPick);
+      $.Msg(stepsCompleted);
+
+      FindDotaHudElement('CMRadiantProgress').style.width = ~~(stepsCompleted[2] / (data['totalstages'] / 2) * 100) + '%';
+      FindDotaHudElement('CMDireProgress').style.width = ~~(stepsCompleted[3] / (data['totalstages'] / 2) * 100) + '%';
       FindDotaHudElement('CMStep' + currentPickIndex).AddClass('active');
+
+      FindDotaHudElement('CMRadiant').RemoveClass('Pick');
+      FindDotaHudElement('CMRadiant').RemoveClass('Ban');
+      FindDotaHudElement('CMDire').RemoveClass('Pick');
+      FindDotaHudElement('CMDire').RemoveClass('Ban');
+
+      if (currentPick.side === 2) {
+        FindDotaHudElement('CMRadiant').AddClass(currentPick.type);
+      } else {
+        FindDotaHudElement('CMDire').AddClass(currentPick.type);
+      }
 
       FindDotaHudElement('CaptainLockIn').RemoveClass('PickHero');
       FindDotaHudElement('CaptainLockIn').RemoveClass('BanHero');
@@ -222,8 +318,37 @@ function onPlayerStatChange (table, key, data) {
       FindDotaHudElement('TimeLeft').text = data['time'];
       FindDotaHudElement('GameMode').text = $.Localize(data['mode']);
     } else {
+      // CM Hides the chat on last pick before selecting plyer hero
+      // ARDM don't have pick screen
+      if (currentMap === 'oaa') {
+        ReturnChatWindow();
+      }
       HideStrategy();
     }
+  }
+}
+
+function MoveChatWindow () {
+  var vanillaChat = FindDotaHudElement('HudChat');
+  vanillaChat.SetHasClass('ChatExpanded', true);
+  vanillaChat.SetHasClass('Active', true);
+  vanillaChat.style.y = '0px';
+  vanillaChat.hittest = true;
+  vanillaChat.SetParent(FindDotaHudElement('ChatPlaceholder'));
+}
+
+function ReturnChatWindow () {
+  var vanillaChat = FindDotaHudElement('HudChat');
+  var vanillaChatParent = FindDotaHudElement('HUDElements');
+
+  if (vanillaChat.GetParent() !== vanillaChatParent) {
+    // Remove focus before change parent
+    vanillaChatParent.SetFocus();
+    vanillaChat.SetParent(vanillaChatParent);
+    vanillaChat.style.y = '-240px';
+    vanillaChat.hittest = false;
+    vanillaChat.SetHasClass('ChatExpanded', false);
+    vanillaChat.SetHasClass('Active', false);
   }
 }
 
@@ -261,6 +386,19 @@ function ReloadCMStatus (data) {
   }
   // reset all data for people, who lost it
   var teamID = Players.GetTeam(Game.GetLocalPlayerID());
+  stepsCompleted = {
+    2: 0,
+    3: 0
+  };
+
+  var currentPick = null;
+  if (data['order'][data['currentstage']].hero === 'empty') {
+    currentPick = data['currentstage'];
+  } else {
+    currentPick = data['currentstage'] + 1;
+  }
+  var currentPickData = data['order'][currentPick];
+
   FindDotaHudElement('CMHeroPreview').RemoveAndDeleteChildren();
   Object.keys(data['order']).forEach(function (nkey) {
     var obj = data['order'][nkey];
@@ -271,6 +409,7 @@ function ReloadCMStatus (data) {
 
     // the "select your hero at the end" thing
     if (obj.side === teamID && obj.type === 'Pick' && obj.hero !== 'empty') {
+      ReturnChatWindow();
       var newbutton = $.CreatePanel('RadioButton', FindDotaHudElement('CMHeroPreview'), '');
       newbutton.group = 'CMHeroChoises';
       newbutton.AddClass('CMHeroPreviewItem');
@@ -287,16 +426,29 @@ function ReloadCMStatus (data) {
     if (obj.hero && obj.hero !== 'empty') {
       FindDotaHudElement('CMStep' + nkey).heroname = obj.hero;
       FindDotaHudElement('CMStep' + nkey).RemoveClass('active');
+
+      FindDotaHudElement('CMRadiant').RemoveClass('Pick');
+      FindDotaHudElement('CMRadiant').RemoveClass('Ban');
+      FindDotaHudElement('CMDire').RemoveClass('Pick');
+      FindDotaHudElement('CMDire').RemoveClass('Ban');
+    }
+
+    if (currentPick >= nkey) {
+      stepsCompleted[obj.side]++;
+      lastPickIndex = nkey;
     }
   });
-  var currentPick = null;
-  if (data['order'][data['currentstage']].hero === 'empty') {
-    currentPick = data['currentstage'];
-  } else {
-    currentPick = data['currentstage'] + 1;
-  }
+  $.Msg(stepsCompleted);
+  FindDotaHudElement('CMRadiantProgress').style.width = ~~(stepsCompleted[2] / (data['totalstages'] / 2) * 100) + '%';
+  FindDotaHudElement('CMDireProgress').style.width = ~~(stepsCompleted[3] / (data['totalstages'] / 2) * 100) + '%';
   if (currentPick < data['totalstages']) {
     FindDotaHudElement('CMStep' + currentPick).AddClass('active');
+
+    if (currentPickData.side === 2) {
+      FindDotaHudElement('CMRadiant').AddClass(currentPickData.type);
+    } else {
+      FindDotaHudElement('CMDire').AddClass(currentPickData.type);
+    }
   }
 }
 
@@ -402,6 +554,9 @@ function HideStrategy () {
   //   FindDotaHudElement(element).style.transform = 'translateY(0)';
   //   FindDotaHudElement(element).style.opacity = '1';
   // });
+  if (neverHideStrategy) {
+    return;
+  }
 
   FindDotaHudElement('MainContent').GetParent().style.opacity = '0';
   FindDotaHudElement('MainContent').GetParent().style.transform = 'scaleX(3) scaleY(3) translateY(25%)';
@@ -414,6 +569,13 @@ function GoToStrategy () {
   FindDotaHudElement('StrategyContent').style.opacity = '1';
   // FindDotaHudElement('PregameBG').style.opacity = '0.15';
   FindDotaHudElement('PregameBG').RemoveClass('BluredAndDark');
+
+  if (!hasGoneToStrategy) {
+    hasGoneToStrategy = true;
+    $.Schedule(6, function () {
+      $('#ARDMLoading').style.opacity = 1;
+    });
+  }
 }
 
 function RandomHero () {

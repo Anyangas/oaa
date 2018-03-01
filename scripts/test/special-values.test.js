@@ -17,6 +17,7 @@ var stupidItemNames = [
   'item_halloween_candy_corn',
   'item_halloween_rapier',
   'item_firework_mine',
+  'sylph_sprite_shield',
   'nothing'
 ];
 
@@ -263,9 +264,12 @@ function checkInheritedValues (t, isItem, values, comments, parentValues) {
     'AbilityCastPoint',
     'AbilityChannelTime',
     'AbilityCooldown',
+    'AbilityDuration',
     'AbilityManaCost',
     'AbilityUnitTargetType',
+    'AbilityUnitDamageType',
     'SpellImmunityType',
+    'SpellDispellableType',
     'ItemInitialCharges',
     'ItemRequiresCharges',
     'ItemDisplayCharges'
@@ -386,7 +390,7 @@ function testSpecialValues (t, isItem, specials, parentSpecials) {
   });
 
   Object.keys(parentData).forEach(function (name) {
-    t.ok(result[name], 'has value for ' + name);
+    t.ok(result[name], 'has value for ' + name + ' (' + parentData[name][name] + ', ' + parentData[name].var_type + ')');
   });
 
   return result;
